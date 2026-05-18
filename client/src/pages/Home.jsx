@@ -351,11 +351,45 @@ const Home = () => {
             <div key={col.title}>
               <h4 style={{ color: 'white', marginBottom: '1rem' }}>{col.title}</h4>
               {col.links.map((link) => (
-                <p key={link} style={{ color: '#aaa', fontSize: '0.9rem', margin: '0.4rem 0', cursor: 'pointer' }}
-                  onMouseEnter={e => e.target.style.color = '#e94560'}
-                  onMouseLeave={e => e.target.style.color = '#aaa'}>
+
+                <Link
+
+                  key={link}
+
+                  to={
+                    link === "Home"
+                      ? "/"
+                      : link === "Products"
+                        ? "/products"
+                        : link === "Cart"
+                          ? "/cart"
+                          : link === "My Orders"
+                            ? "/myorders"
+                            : "#"
+                  }
+
+                  style={{
+                    color: '#aaa',
+                    fontSize: '0.9rem',
+                    margin: '0.4rem 0',
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    display: 'block'
+                  }}
+
+                  onMouseEnter={e =>
+                    e.target.style.color = '#e94560'
+                  }
+
+                  onMouseLeave={e =>
+                    e.target.style.color = '#aaa'
+                  }
+
+                >
                   {link}
-                </p>
+
+                </Link>
+
               ))}
             </div>
           ))}
