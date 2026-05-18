@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
-const Product = require("../models/productModel");
+const Product = require("../models/product");
 
 router.post("/", async (req, res) => {
 
