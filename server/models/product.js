@@ -23,6 +23,47 @@ const productSchema = new mongoose.Schema(
     reviews: [reviewSchema],
     rating: { type: Number, required: true, default: 0 },
     numReviews: { type: Number, required: true, default: 0 },
+    originalPrice: {
+
+  type: Number,
+
+  default: 0,
+
+},
+
+discountPercent: {
+
+  type: Number,
+
+  default: 0,
+
+},
+
+offers: [
+
+  {
+
+    type: String,
+
+  },
+
+],
+
+deliveryDays: {
+
+  type: String,
+
+  default: "2-4 Days",
+
+},
+
+inStock: {
+
+  type: Boolean,
+
+  default: true,
+
+},
   },
   { timestamps: true }
 );
