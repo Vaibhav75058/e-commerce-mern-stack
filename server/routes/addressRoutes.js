@@ -10,6 +10,10 @@ const {
 
   getAddresses,
 
+  deleteAddress,
+
+  updateAddress,
+
 } = require(
   "../controllers/addressController"
 );
@@ -31,6 +35,19 @@ router
   .get(
     protect,
     getAddresses
+  );
+
+router
+  .route("/:id")
+
+  .delete(
+    protect,
+    deleteAddress
+  )
+
+  .put(
+    protect,
+    updateAddress
   );
 
 module.exports =
