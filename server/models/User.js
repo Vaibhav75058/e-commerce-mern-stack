@@ -82,7 +82,14 @@ const userSchema =
       addresses: [
         addressSchema
       ],
+      wishlist: [
+        {
+          type:
+            mongoose.Schema.Types.ObjectId,
 
+          ref: "Product",
+        },
+      ],
     },
 
     {

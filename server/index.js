@@ -34,7 +34,12 @@ app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
 app.use("/api/chat", chatRoutes);
-
+app.use(
+  "/api/wishlist",
+  require(
+    "./routes/wishlistRoutes"
+  )
+);
 app.get('/', (req, res) => {
   res.send('ShopEase API is running...');
 });
