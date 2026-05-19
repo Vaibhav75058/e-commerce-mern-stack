@@ -28,7 +28,7 @@ const ChatBot = () => {
         try {
 
             const res = await axios.post(
-                "http://e-commerce-mern-stack-0okr.onrender.com/api/chat",
+                "https://e-commerce-mern-stack-0okr.onrender.com/api/chat",
                 {
                     message
                 }

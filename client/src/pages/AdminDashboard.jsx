@@ -32,9 +32,9 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       const [ordersRes, productsRes, usersRes] = await Promise.all([
-        axios.get('http://e-commerce-mern-stack-0okr.onrender.com/api/orders', config),
-        axios.get('http://e-commerce-mern-stack-0okr.onrender.com/api/products', config),
-        axios.get('http://e-commerce-mern-stack-0okr.onrender.com/api/users', config),
+        axios.get('https://e-commerce-mern-stack-0okr.onrender.com/api/orders', config),
+        axios.get('https://e-commerce-mern-stack-0okr.onrender.com/api/products', config),
+        axios.get('https://e-commerce-mern-stack-0okr.onrender.com/api/users', config),
       ]);
       setOrders(ordersRes.data);
       setProducts(productsRes.data);
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   const handleDeleteProduct = async (id) => {
     if (window.confirm('Delete this product?')) {
       try {
-        await axios.delete(`http://e-commerce-mern-stack-0okr.onrender.com/api/products/${id}`, config);
+        await axios.delete(`https://e-commerce-mern-stack-0okr.onrender.com/api/products/${id}`, config);
         setProducts(products.filter((p) => p._id !== id));
       } catch (error) {
         alert('Error deleting product');
@@ -60,7 +60,7 @@ const AdminDashboard = () => {
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('http://e-commerce-mern-stack-0okr.onrender.com/api/products', newProduct, config);
+      const { data } = await axios.post('https://e-commerce-mern-stack-0okr.onrender.com/api/products', newProduct, config);
       setProducts([...products, data]);
       setNewProduct({ name: '', description: '', price: '', category: '', image: '', brand: '', stock: '' });
       alert('Product created!');
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://e-commerce-mern-stack-0okr.onrender.com/api/products/${editingProduct._id}`,
+        `https://e-commerce-mern-stack-0okr.onrender.com/api/products/${editingProduct._id}`,
         editingProduct,
         config
       );
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
 
   const handleDeliverOrder = async (id) => {
     try {
-      await axios.put(`http://e-commerce-mern-stack-0okr.onrender.com/api/orders/${id}/deliver`, {}, config);
+      await axios.put(`https://e-commerce-mern-stack-0okr.onrender.com/api/orders/${id}/deliver`, {}, config);
       setOrders(orders.map((o) =>
         o._id === id ? { ...o, isDelivered: true, status: 'Delivered' } : o
       ));
@@ -104,7 +104,7 @@ const AdminDashboard = () => {
   const handleDeleteUser = async (id) => {
     if (window.confirm('Delete this user?')) {
       try {
-        await axios.delete(`http://e-commerce-mern-stack-0okr.onrender.com/api/users/${id}`, config);
+        await axios.delete(`https://e-commerce-mern-stack-0okr.onrender.com/api/users/${id}`, config);
         setUsers(users.filter((u) => u._id !== id));
       } catch (error) {
         alert('Error deleting user');

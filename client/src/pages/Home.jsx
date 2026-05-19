@@ -176,7 +176,7 @@ const Home = () => {
   const fetchProducts = async (keyword = '') => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`http://e-commerce-mern-stack-0okr.onrender.com/api/products?keyword=${keyword}`);
+      const { data } = await axios.get(`https://e-commerce-mern-stack-0okr.onrender.com/api/products?keyword=${keyword}`);
       setProducts(data);
       setLoading(false);
     } catch (error) {

@@ -21,7 +21,7 @@ const MyOrders = () => {
   const fetchMyOrders = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://e-commerce-mern-stack-0okr.onrender.com/api/orders/myorders', config);
+      const { data } = await axios.get('https://e-commerce-mern-stack-0okr.onrender.com/api/orders/myorders', config);
       setOrders(data);
       setLoading(false);
     } catch (error) {

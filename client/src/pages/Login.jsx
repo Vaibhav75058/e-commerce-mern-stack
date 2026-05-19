@@ -17,7 +17,7 @@ const Login = () => {
     setLoading(true);
     setError('');
     try {
-      const { data } = await axios.post('http://e-commerce-mern-stack-0okr.onrender.com/api/auth/login', {
+      const { data } = await axios.post('https://e-commerce-mern-stack-0okr.onrender.com/api/auth/login', {
         email,
         password,
       });
