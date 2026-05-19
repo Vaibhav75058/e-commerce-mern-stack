@@ -18,7 +18,7 @@ const Register = () => {
     setLoading(true);
     setError('');
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/register', {
+      const { data } = await axios.post('http://e-commerce-mern-stack-0okr.onrender.com/api/auth/register', {
         name,
         email,
         password,

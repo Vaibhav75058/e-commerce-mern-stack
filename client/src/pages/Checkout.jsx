@@ -34,7 +34,7 @@ const Checkout = () => {
         totalPrice,
       };
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/orders', orderData, config);
+      const { data } = await axios.post('http://e-commerce-mern-stack-0okr.onrender.com/api/orders', orderData, config);
       clearCart();
       navigate(`/order/${data._id}`);
     } catch (error) {
