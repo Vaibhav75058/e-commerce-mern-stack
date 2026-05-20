@@ -16,7 +16,14 @@ const getProducts = async (req, res) => {
     const category = req.query.category ? { category: req.query.category } : {};
 
     // Fetch products combining both filters
-    const products = await Product.find({ ...keyword, ...category });
+    const products =
+      await Product.find({
+
+        ...keyword,
+
+        ...category,
+
+      }).populate("category");
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -30,12 +37,15 @@ const getProducts = async (req, res) => {
  */
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    
+    const product =
+      await Product.findById(
+        req.params.id
+      ).populate("category");
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    
+
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -50,10 +60,10 @@ const getProductById = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     // Destructure all required fields to avoid ReferenceError
-    const { 
-      name, description, price, category, image, brand, stock, 
+    const {
+      name, description, price, category, image, brand, stock,
       originalPrice, discountPercent, offers, deliveryDays, inStock,
-      rating, numReviews 
+      rating, numReviews
     } = req.body;
 
     const product = new Product({
@@ -95,7 +105,7 @@ const updateProduct = async (req, res) => {
     } = req.body;
 
     const product = await Product.findById(req.params.id);
-    
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -108,14 +118,14 @@ const updateProduct = async (req, res) => {
     product.brand = brand || product.brand;
     product.offers = offers || product.offers;
     product.deliveryDays = deliveryDays || product.deliveryDays;
-    
+
     // Update Number/Boolean values (Using Nullish Coalescing ?? to allow 0 or false)
     product.price = price ?? product.price;
     product.stock = stock ?? product.stock;
     product.originalPrice = originalPrice ?? product.originalPrice;
     product.discountPercent = discountPercent ?? product.discountPercent;
     product.inStock = inStock ?? product.inStock;
-    
+
     // Admin rating overrides
     product.rating = rating ?? product.rating;
     product.numReviews = numReviews ?? product.numReviews;
@@ -135,7 +145,7 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -157,7 +167,7 @@ const createProductReview = async (req, res) => {
     const { rating, comment } = req.body;
 
     const product = await Product.findById(req.params.id);
-    
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -180,10 +190,10 @@ const createProductReview = async (req, res) => {
     };
 
     product.reviews.push(review);
-    
+
     // Update total number of reviews
     product.numReviews = product.reviews.length;
-    
+
     // Calculate and update average product rating
     product.rating =
       product.reviews.reduce((acc, r) => acc + r.rating, 0) /

@@ -1,5 +1,7 @@
 const Category =
-  require("../models/category");
+  require(
+    "../models/category"
+  );
 
 const getCategories =
   async (req, res) => {
@@ -14,8 +16,10 @@ const getCategories =
     } catch (error) {
 
       res.status(500).json({
+
         message:
           error.message,
+
       });
 
     }
@@ -32,10 +36,29 @@ const createCategory =
         image,
       } = req.body;
 
+      const alreadyExists =
+        await Category.findOne({
+
+          name: name.trim(),
+
+        });
+
+      if (alreadyExists) {
+
+        return res.status(400).json({
+
+          message:
+            "Category already exists",
+
+        });
+
+      }
+
       const category =
         new Category({
 
-          name,
+          name:
+            name.trim(),
 
           image,
 
@@ -51,8 +74,10 @@ const createCategory =
     } catch (error) {
 
       res.status(500).json({
+
         message:
           error.message,
+
       });
 
     }

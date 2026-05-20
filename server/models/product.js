@@ -16,7 +16,23 @@ const productSchema = new mongoose.Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true, default: 0 },
-    category: { type: String, required: true },
+    category: {
+
+      type:
+        mongoose.Schema.Types.ObjectId,
+
+      ref: "Category",
+
+      required: true,
+
+    },
+    categoryImage: {
+
+      type: String,
+
+      default: "",
+
+    },
     image: { type: String, required: true },
     brand: { type: String, required: true },
     stock: { type: Number, required: true, default: 0 },
@@ -25,45 +41,45 @@ const productSchema = new mongoose.Schema(
     numReviews: { type: Number, required: true, default: 0 },
     originalPrice: {
 
-  type: Number,
+      type: Number,
 
-  default: 0,
+      default: 0,
 
-},
+    },
 
-discountPercent: {
+    discountPercent: {
 
-  type: Number,
+      type: Number,
 
-  default: 0,
+      default: 0,
 
-},
+    },
 
-offers: [
+    offers: [
 
-  {
+      {
 
-    type: String,
+        type: String,
 
-  },
+      },
 
-],
+    ],
 
-deliveryDays: {
+    deliveryDays: {
 
-  type: String,
+      type: String,
 
-  default: "2-4 Days",
+      default: "2-4 Days",
 
-},
+    },
 
-inStock: {
+    inStock: {
 
-  type: Boolean,
+      type: Boolean,
 
-  default: true,
+      default: true,
 
-},
+    },
   },
   { timestamps: true }
 );
