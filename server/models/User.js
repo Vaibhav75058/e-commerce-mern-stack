@@ -90,6 +90,10 @@ const userSchema =
           ref: "Product",
         },
       ],
+      pushToken: {
+        type: String,
+        default: ""
+      },
     },
 
     {
