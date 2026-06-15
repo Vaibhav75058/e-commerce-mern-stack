@@ -67,4 +67,68 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: 'Please provide email' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found with this email' });
+    }
+
+    // Generate a random 4-digit code (simulated OTP)
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+    // Store OTP in user document with 15 minutes expiry
+    user.resetPasswordOTP = otp;
+    user.resetPasswordOTPExpires = Date.now() + 15 * 60 * 1000;
+    await user.save();
+
+    console.log(`[FORGOT PASSWORD OTP] User: ${email} -> OTP: ${otp}`);
+
+    // In a real app we'd send email here.
+    // For development/demo purposes we will log it and return it in JSON so they can use it immediately.
+    return res.json({
+      message: 'OTP sent to your registered email (Simulated)',
+      otp: otp, // Returning for ease of testing in front-end
+    });
+  } catch (error) {
+    console.error('ForgotPassword error:', error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({ message: 'Please fill all fields' });
+    }
+
+    const user = await User.findOne({
+      email,
+      resetPasswordOTP: otp,
+      resetPasswordOTPExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    // Update password
+    user.password = newPassword;
+    user.resetPasswordOTP = "";
+    user.resetPasswordOTPExpires = undefined;
+    await user.save();
+
+    return res.json({ message: 'Password has been reset successfully' });
+  } catch (error) {
+    console.error('ResetPassword error:', error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { registerUser, loginUser, forgotPassword, resetPassword };

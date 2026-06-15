@@ -94,6 +94,13 @@ const userSchema =
         type: String,
         default: ""
       },
+      resetPasswordOTP: {
+        type: String,
+        default: ""
+      },
+      resetPasswordOTPExpires: {
+        type: Date
+      },
     },
 
     {
