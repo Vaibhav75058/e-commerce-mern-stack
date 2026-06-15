@@ -1,6 +1,10 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
+const escapeRegex = (text) => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
@@ -13,7 +17,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'Please fill all fields' });
     }
 
-    const userExists = await User.findOne({ email });
+    const emailQuery = { $regex: new RegExp('^' + escapeRegex(email.trim()) + '$', 'i') };
+    const userExists = await User.findOne({ email: emailQuery });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -42,7 +47,8 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: 'Please fill all fields' });
     }
 
-    const user = await User.findOne({ email });
+    const emailQuery = { $regex: new RegExp('^' + escapeRegex(email.trim()) + '$', 'i') };
+    const user = await User.findOne({ email: emailQuery });
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password' });
@@ -74,7 +80,8 @@ const forgotPassword = async (req, res) => {
       return res.status(400).json({ message: 'Please provide email' });
     }
 
-    const user = await User.findOne({ email });
+    const emailQuery = { $regex: new RegExp('^' + escapeRegex(email.trim()) + '$', 'i') };
+    const user = await User.findOne({ email: emailQuery });
     if (!user) {
       return res.status(404).json({ message: 'User not found with this email' });
     }
@@ -108,8 +115,9 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({ message: 'Please fill all fields' });
     }
 
+    const emailQuery = { $regex: new RegExp('^' + escapeRegex(email.trim()) + '$', 'i') };
     const user = await User.findOne({
-      email,
+      email: emailQuery,
       resetPasswordOTP: otp,
       resetPasswordOTPExpires: { $gt: Date.now() },
     });
